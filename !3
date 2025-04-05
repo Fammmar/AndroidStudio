@@ -1,0 +1,66 @@
+package com.example.myapplication;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+    Integer counter = 0;
+    Integer counter2 = 0;
+    Integer colorCount = 0;
+
+    public void onClick(View view){
+        counter++;
+        TextView textView;
+        textView = findViewById(R.id.textView1);
+        textView.setText(counter.toString());
+
+    }
+    public void onClick2 (View view){
+        counter2++;
+        TextView textView;
+        textView = findViewById(R.id.textView2);
+        textView.setText(counter2.toString());
+
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.back), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outstate){
+        super.onSaveInstanceState(outstate);
+        outstate.putInt("1", counter);
+        outstate.putInt("2", counter2);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstance){
+        super.onRestoreInstanceState(savedInstance);
+        if(savedInstance!= null && savedInstance.containsKey("1")){
+            counter=savedInstance.getInt("1");
+            TextView textView = findViewById(R.id.textView1);
+            textView.setText(counter.toString());
+
+        }
+        if(savedInstance!= null && savedInstance.containsKey("2")){
+            counter2=savedInstance.getInt("2");
+            TextView textView = findViewById(R.id.textView2);
+            textView.setText(counter2.toString());
+
+        }
+    }
+
+}
